@@ -23,7 +23,7 @@ function Pie({ estado, pendiente, texto }: { estado: EstadoFormulario; pendiente
   return (
     <>
       {estado.error && (
-        <p role="alert" className="m-0 rounded-lg bg-rubor px-3 py-2.5 text-[0.9rem] text-vino">
+        <p role="alert" className="m-0 rounded-lg bg-bruma px-3 py-2.5 text-[0.9rem] text-magenta-osc">
           {estado.error}
         </p>
       )}
@@ -98,7 +98,7 @@ export function FormularioEnlace({ cursoId, maxUsosActual }: { cursoId: number; 
         <label className="flex items-center gap-2 text-[0.95rem]">
           <input
             type="radio"
-            className="accent-frambuesa"
+            className="accent-magenta"
             name="modo"
             value="ilimitado"
             checked={modo === "ilimitado"}
@@ -109,7 +109,7 @@ export function FormularioEnlace({ cursoId, maxUsosActual }: { cursoId: number; 
         <label className="flex items-center gap-2 text-[0.95rem]">
           <input
             type="radio"
-            className="accent-frambuesa"
+            className="accent-magenta"
             name="modo"
             value="limitado"
             checked={modo === "limitado"}
@@ -133,7 +133,7 @@ export function FormularioEnlace({ cursoId, maxUsosActual }: { cursoId: number; 
           />
         </label>
       )}
-      <p className="m-0 text-[0.9rem] text-cacao-2">Se genera un enlace nuevo y el contador de usos vuelve a cero.</p>
+      <p className="m-0 text-[0.9rem] text-marino-2">Se genera un enlace nuevo y el contador de usos vuelve a cero.</p>
       <Pie estado={estado} pendiente={pendiente} texto="Generar enlace" />
     </form>
   );

@@ -21,7 +21,7 @@ export function FormularioTarea() {
       <button type="submit" disabled={pendiente} className="boton boton-primario boton-chico">
         {pendiente ? "Guardando..." : "Agregar"}
       </button>
-      {estado.error && <p className="col-span-full text-frambuesa">{estado.error}</p>}
+      {estado.error && <p className="col-span-full text-magenta">{estado.error}</p>}
     </form>
   );
 }

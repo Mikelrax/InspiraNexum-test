@@ -19,9 +19,9 @@ export const metadata: Metadata = { title: "Curso · Inspira Nexum" };
 export const dynamic = "force-dynamic";
 
 const cabecera =
-  "border-b border-rubor bg-crema px-4 py-3 text-left align-middle text-[0.78rem] font-semibold tracking-[0.04em] text-cacao-2 uppercase";
-const celda = "border-b border-rubor px-4 py-3 text-left align-middle";
-const celdaVacia = "px-4 py-8 text-center align-middle text-cacao-2";
+  "border-b border-bruma bg-lienzo px-4 py-3 text-left align-middle text-[0.78rem] font-semibold tracking-[0.04em] text-marino-2 uppercase";
+const celda = "border-b border-bruma px-4 py-3 text-left align-middle";
+const celdaVacia = "px-4 py-8 text-center align-middle text-marino-2";
 
 // APP_URL permite fijar el dominio público; sin él se deduce de la petición.
 async function origenPublico(): Promise<string> {
@@ -57,7 +57,7 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
       <nav>
         <Link
           href="/admin/educacion"
-          className="text-[0.9rem] text-cacao-2 no-underline transition-colors hover:text-frambuesa"
+          className="text-[0.9rem] text-marino-2 no-underline transition-colors hover:text-magenta"
         >
           ← Educación
         </Link>
@@ -66,7 +66,7 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-[1.75rem]">{curso.nombre}</h1>
-          <p className="mt-1 text-cacao-2">
+          <p className="mt-1 text-marino-2">
             {curso.instructor ? `${curso.instructor} · ` : ""}
             {estudiantes.length} {estudiantes.length === 1 ? "estudiante" : "estudiantes"}
           </p>
@@ -97,15 +97,15 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
               width={180}
               height={180}
               alt="Código QR del enlace de registro"
-              className="rounded-lg border border-rubor-2 bg-white p-1.5"
+              className="rounded-lg border border-bruma-2 bg-white p-1.5"
             />
             <div className="grid min-w-[260px] flex-1 gap-3">
               <p>
                 <span
                   className={
                     enlace.activo && !agotado
-                      ? "inline-block rounded-full bg-pino-claro px-2.5 py-0.5 text-[0.78rem] font-semibold text-pino"
-                      : "inline-block rounded-full bg-rubor px-2.5 py-0.5 text-[0.78rem] font-semibold text-vino"
+                      ? "inline-block rounded-full bg-turquesa-claro px-2.5 py-0.5 text-[0.78rem] font-semibold text-turquesa"
+                      : "inline-block rounded-full bg-bruma px-2.5 py-0.5 text-[0.78rem] font-semibold text-magenta-osc"
                   }
                 >
                   {!enlace.activo ? "Desactivado" : agotado ? "Límite alcanzado" : "Activo"}
@@ -127,7 +127,7 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
             </div>
           </div>
         ) : (
-          <p className="m-0 text-[0.9rem] text-cacao-2">
+          <p className="m-0 text-[0.9rem] text-marino-2">
             Genera un enlace con código QR para que los estudiantes se registren solos. Puedes limitar
             cuántas veces se puede usar o dejarlo ilimitado.
           </p>

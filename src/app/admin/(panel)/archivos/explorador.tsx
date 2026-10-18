@@ -26,10 +26,10 @@ type DialogoNombreEstado = {
 
 const href = (ruta: string) => (ruta ? `/admin/archivos?ruta=${encodeURIComponent(ruta)}` : "/admin/archivos");
 
-const claseEnlace = "ml-3 cursor-pointer p-0 text-[0.9rem] text-frambuesa hover:underline";
-const claseEnlacePeligro = "ml-3 cursor-pointer p-0 text-[0.9rem] text-vino hover:underline";
-const claseCabecera = "border-b border-rubor-2 p-2 text-left text-[0.8rem] font-semibold uppercase text-cacao-2";
-const claseCelda = "border-b border-rubor px-2 py-2.5 text-[0.95rem]";
+const claseEnlace = "ml-3 cursor-pointer p-0 text-[0.9rem] text-magenta hover:underline";
+const claseEnlacePeligro = "ml-3 cursor-pointer p-0 text-[0.9rem] text-magenta-osc hover:underline";
+const claseCabecera = "border-b border-bruma-2 p-2 text-left text-[0.8rem] font-semibold uppercase text-marino-2";
+const claseCelda = "border-b border-bruma px-2 py-2.5 text-[0.95rem]";
 
 function formatearTamano(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -88,7 +88,7 @@ function DialogoNombre({ estado, onCerrar }: { estado: DialogoNombreEstado; onCe
   return (
     <dialog
       ref={ref}
-      className="rounded-marca border-0 p-0 shadow-marca backdrop:bg-cacao-osc/40"
+      className="rounded-marca border-0 p-0 shadow-marca backdrop:bg-marino-osc/40"
       onClose={onCerrar}
       onClick={(e) => e.target === ref.current && ref.current?.close()}
     >
@@ -105,7 +105,7 @@ function DialogoNombre({ estado, onCerrar }: { estado: DialogoNombreEstado; onCe
             onFocus={(e) => e.currentTarget.select()}
           />
         </label>
-        {error && <p className="my-2 text-sm text-vino">{error}</p>}
+        {error && <p className="my-2 text-sm text-magenta-osc">{error}</p>}
         <div className="mt-4 flex justify-end gap-2">
           <button type="button" className="boton boton-fantasma boton-chico" onClick={() => ref.current?.close()}>
             Cancelar
@@ -205,7 +205,7 @@ export function Explorador({
   return (
     <div
       className={`rounded-xl border-2 border-dashed p-4 shadow-suave transition-colors duration-150 ${
-        arrastrando ? "border-coral bg-rubor" : "border-transparent bg-white"
+        arrastrando ? "border-celeste bg-bruma" : "border-transparent bg-white"
       }`}
       onDragOver={(e) => {
         e.preventDefault();
@@ -243,26 +243,26 @@ export function Explorador({
             e.target.value = "";
           }}
         />
-        {(ocupado || enCurso) && <span className="ml-auto text-sm text-cacao-2">Trabajando…</span>}
+        {(ocupado || enCurso) && <span className="ml-auto text-sm text-marino-2">Trabajando…</span>}
       </div>
 
       {error && (
-        <p className="my-2 text-sm text-vino" role="alert">
+        <p className="my-2 text-sm text-magenta-osc" role="alert">
           {error}
         </p>
       )}
 
       {subidas.length > 0 && (
-        <ul className="mb-4 rounded-xl bg-crema p-3 accent-frambuesa">
+        <ul className="mb-4 rounded-xl bg-lienzo p-3 accent-magenta">
           {subidas.map((s) => (
             <li key={s.id} className="flex items-center gap-3 py-1 text-sm">
               <span className="flex-[1_1_40%] truncate">{s.nombre}</span>
               {s.estado === "error" ? (
-                <span className="text-vino">{s.error}</span>
+                <span className="text-magenta-osc">{s.error}</span>
               ) : (
                 <progress className="flex-[1_1_40%]" value={s.progreso} max={100} />
               )}
-              <span className="min-w-11 text-right text-cacao-2">
+              <span className="min-w-11 text-right text-marino-2">
                 {s.estado === "listo" ? "Listo" : s.estado === "subiendo" ? `${s.progreso}%` : ""}
               </span>
             </li>
@@ -278,7 +278,7 @@ export function Explorador({
       )}
 
       {vacio ? (
-        <p className="py-8 text-center text-cacao-2">
+        <p className="py-8 text-center text-marino-2">
           Esta carpeta está vacía. Arrastra archivos aquí o usa «Subir archivos».
         </p>
       ) : (
@@ -293,9 +293,9 @@ export function Explorador({
           </thead>
           <tbody>
             {carpetas.map((c) => (
-              <tr key={c.ruta} className="hover:bg-crema">
+              <tr key={c.ruta} className="hover:bg-lienzo">
                 <td className={claseCelda}>
-                  <Link href={href(c.ruta)} className="font-semibold text-cacao no-underline hover:text-frambuesa">
+                  <Link href={href(c.ruta)} className="font-semibold text-marino no-underline hover:text-magenta">
                     📁 {c.nombre}
                   </Link>
                 </td>
@@ -331,7 +331,7 @@ export function Explorador({
               </tr>
             ))}
             {archivos.map((a) => (
-              <tr key={a.ruta} className="hover:bg-crema">
+              <tr key={a.ruta} className="hover:bg-lienzo">
                 <td className={`${claseCelda} break-all`}>📄 {a.nombre}</td>
                 <td className={claseCelda}>{formatearTamano(a.tamano)}</td>
                 <td className={claseCelda}>{formatearFecha(a.modificado)}</td>

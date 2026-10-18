@@ -20,7 +20,7 @@ export default async function PaginaUnirse({ params }: { params: Promise<{ token
   const enlace = await consultarEnlacePublico(token);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-crema px-4 py-6">
+    <div className="flex min-h-screen items-center justify-center bg-lienzo px-4 py-6">
       <main className="tarjeta w-full max-w-[400px] px-6 py-7">
         <div className="mb-5">
           <Logo />

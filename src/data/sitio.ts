@@ -155,5 +155,45 @@ export const MARQUESINA = [
   "Tazas con nombre",
   "Bocaditos para eventos",
   "Globos",
+  "Cursos y talleres",
   "Delivery en Arequipa",
 ];
+
+// Cuarta línea de Inspira Nexum: formación. No es un emprendimiento de producto
+// sino la escuela que enseña el oficio detrás de ellos.
+export const ALAS = {
+  nombre: "Alas hacia el futuro",
+  lema: "Capacitación técnico productiva",
+  descripcion:
+    "Talleres prácticos para aprender un oficio y emprender: catering, chocolatería, gelatina y tartas. Cada módulo termina con una muestra de lo aprendido y certificado para cada participante.",
+  cursos: [
+    {
+      nombre: "Taller de catering",
+      texto: "Bocaditos dulces y salados, brochetas, montaje y presentación de mesas para eventos.",
+      imagen: "/img/alas/mesa-catering.jpg",
+    },
+    {
+      nombre: "Chocolatería, gelatina y tartas",
+      texto: "Chocolate modelado, postres en vaso, gelatinas y tartas para vender o celebrar.",
+      imagen: "/img/alas/piano-chocolate.jpg",
+    },
+    {
+      nombre: "Pastelería creativa",
+      texto: "Tortas temáticas y queques con acabados de exhibición.",
+      imagen: "/img/alas/torta-tematica.jpg",
+    },
+  ],
+  galeria: [
+    { src: "/img/alas/clausura-chocolateria.jpg", alt: "Clausura del taller de chocolatería, gelatina y tartas, módulo II 2026", ancho: 1600, alto: 1067 },
+    { src: "/img/alas/clausura-catering.jpg", alt: "Clausura del taller de catering, módulo II 2026", ancho: 1440, alto: 960 },
+    { src: "/img/alas/estudiante-bocaditos.jpg", alt: "Participante mostrando los bocaditos que preparó", ancho: 1600, alto: 1066 },
+    { src: "/img/alas/bocaditos-dorados.jpg", alt: "Mesa de bocaditos dulces y salados sobre bandejas doradas", ancho: 1440, alto: 960 },
+    { src: "/img/alas/bocaditos-globos.jpg", alt: "Mesa de catering con jugos, tartaletas y empanaditas", ancho: 1600, alto: 1200 },
+    { src: "/img/alas/brochetas.jpg", alt: "Brochetas de pollo con pimientos", ancho: 1200, alto: 1600 },
+  ],
+  datos: [
+    { valor: "Módulo II", detalle: "ya clausurado en 2026" },
+    { valor: "100%", detalle: "práctico, con certificado" },
+    { valor: "Cupos", detalle: "limitados por taller" },
+  ],
+};

@@ -13,12 +13,12 @@ export const metadata: Metadata = { title: "Educación · Inspira Nexum" };
 export const dynamic = "force-dynamic";
 
 const cabecera =
-  "border-b border-rubor bg-crema px-4 py-3 text-left align-middle text-[0.78rem] font-semibold tracking-[0.04em] text-cacao-2 uppercase";
+  "border-b border-bruma bg-lienzo px-4 py-3 text-left align-middle text-[0.78rem] font-semibold tracking-[0.04em] text-marino-2 uppercase";
 const cabeceraNumero =
-  "border-b border-rubor bg-crema px-4 py-3 text-right align-middle text-[0.78rem] font-semibold tracking-[0.04em] text-cacao-2 uppercase tabular-nums";
-const celda = "border-b border-rubor px-4 py-3 text-left align-middle";
-const celdaNumero = "border-b border-rubor px-4 py-3 text-right align-middle tabular-nums";
-const celdaVacia = "px-4 py-8 text-center align-middle text-cacao-2";
+  "border-b border-bruma bg-lienzo px-4 py-3 text-right align-middle text-[0.78rem] font-semibold tracking-[0.04em] text-marino-2 uppercase tabular-nums";
+const celda = "border-b border-bruma px-4 py-3 text-left align-middle";
+const celdaNumero = "border-b border-bruma px-4 py-3 text-right align-middle tabular-nums";
+const celdaVacia = "px-4 py-8 text-center align-middle text-marino-2";
 
 export default async function PaginaEducacion() {
   const sesion = await verificarToken((await cookies()).get(COOKIE_SESION)?.value);
@@ -31,7 +31,7 @@ export default async function PaginaEducacion() {
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-[1.75rem]">Educación</h1>
-          <p className="mt-1 text-cacao-2">
+          <p className="mt-1 text-marino-2">
             {cursos.length} {cursos.length === 1 ? "curso" : "cursos"}
           </p>
         </div>
@@ -57,12 +57,12 @@ export default async function PaginaEducacion() {
                 <td className={celda}>
                   <Link
                     href={`/admin/educacion/${curso.id}`}
-                    className="block font-semibold text-tinta no-underline transition-colors hover:text-frambuesa"
+                    className="block font-semibold text-tinta no-underline transition-colors hover:text-magenta"
                   >
                     {curso.nombre}
                   </Link>
                   {curso.descripcion && (
-                    <span className="mt-0.5 block max-w-[44ch] truncate text-[0.82rem] text-cacao-2">
+                    <span className="mt-0.5 block max-w-[44ch] truncate text-[0.82rem] text-marino-2">
                       {curso.descripcion}
                     </span>
                   )}

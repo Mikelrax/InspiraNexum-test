@@ -42,32 +42,32 @@ export default async function PaginaArchivos({ searchParams }: { searchParams: P
 
   return (
     <>
-      <Link href="/admin" className="text-[0.9rem] text-cacao-2 no-underline transition-colors hover:text-cacao">
+      <Link href="/admin" className="text-[0.9rem] text-marino-2 no-underline transition-colors hover:text-marino">
         ← Panel administrativo
       </Link>
       <h1 className="mt-2 mb-4 text-3xl">Archivos</h1>
 
       {!configurado ? (
-        <p className="rounded-xl border border-oro bg-oro-claro p-4 leading-relaxed">
+        <p className="rounded-xl border border-dorado bg-dorado-claro p-4 leading-relaxed">
           El almacenamiento aún no está configurado. Define <code>R2_ACCOUNT_ID</code>,{" "}
           <code>R2_ACCESS_KEY_ID</code>, <code>R2_SECRET_ACCESS_KEY</code> y <code>R2_BUCKET</code> en{" "}
           <code>.env.local</code> y reinicia el servidor.
         </p>
       ) : (
         <>
-          <nav className="mb-3 text-cacao-2" aria-label="Ruta">
-            <Link href={href("")} className="text-frambuesa no-underline hover:underline">
+          <nav className="mb-3 text-marino-2" aria-label="Ruta">
+            <Link href={href("")} className="text-magenta no-underline hover:underline">
               Inicio
             </Link>
             {segmentos.map((segmento, i) => (
               <span key={i}>
                 {" / "}
                 {i === segmentos.length - 1 ? (
-                  <strong className="text-cacao">{segmento}</strong>
+                  <strong className="text-marino">{segmento}</strong>
                 ) : (
                   <Link
                     href={href(segmentos.slice(0, i + 1).join("/"))}
-                    className="text-frambuesa no-underline hover:underline"
+                    className="text-magenta no-underline hover:underline"
                   >
                     {segmento}
                   </Link>
@@ -76,7 +76,7 @@ export default async function PaginaArchivos({ searchParams }: { searchParams: P
             ))}
           </nav>
           {errorAlmacen ? (
-            <p className="my-2 text-sm text-vino" role="alert">
+            <p className="my-2 text-sm text-magenta-osc" role="alert">
               {errorAlmacen}
             </p>
           ) : (

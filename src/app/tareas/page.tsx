@@ -9,11 +9,11 @@ export default async function Inicio() {
   const pendientes = tareas.filter((tarea) => !tarea.completada).length;
 
   return (
-    <div className="min-h-screen bg-crema text-cacao">
+    <div className="min-h-screen bg-lienzo text-marino">
       <main className="mx-auto max-w-2xl px-4 py-12">
         <header>
           <h1 className="text-[2rem]">Inspira Nexum</h1>
-          <p className="mt-1 mb-6 text-cacao-2">
+          <p className="mt-1 mb-6 text-marino-2">
             {tareas.length} tareas · {pendientes} pendientes · SQLite en memoria
           </p>
         </header>
@@ -29,7 +29,7 @@ export default async function Inicio() {
               <form action={alternarTareaAccion.bind(null, tarea.id)}>
                 <button
                   type="submit"
-                  className="h-6 w-6 rounded-md border-2 border-frambuesa bg-white font-bold text-frambuesa"
+                  className="h-6 w-6 rounded-md border-2 border-magenta bg-white font-bold text-magenta"
                   aria-label="Alternar estado"
                 >
                   {tarea.completada ? "✓" : ""}
@@ -37,12 +37,12 @@ export default async function Inicio() {
               </form>
               <div className="flex flex-1 flex-col">
                 <strong
-                  className={tarea.completada ? "text-cacao-2 line-through" : ""}
+                  className={tarea.completada ? "text-marino-2 line-through" : ""}
                 >
                   {tarea.titulo}
                 </strong>
                 {tarea.descripcion && (
-                  <span className="text-[0.9rem] text-cacao-2">
+                  <span className="text-[0.9rem] text-marino-2">
                     {tarea.descripcion}
                   </span>
                 )}
@@ -50,7 +50,7 @@ export default async function Inicio() {
               <form action={eliminarTareaAccion.bind(null, tarea.id)}>
                 <button
                   type="submit"
-                  className="border-0 bg-transparent text-[1.4rem] text-vino hover:text-frambuesa"
+                  className="border-0 bg-transparent text-[1.4rem] text-magenta-osc hover:text-magenta"
                   aria-label="Eliminar tarea"
                 >
                   ×
@@ -59,7 +59,7 @@ export default async function Inicio() {
             </li>
           ))}
           {tareas.length === 0 && (
-            <li className="p-6 text-center text-cacao-2">
+            <li className="p-6 text-center text-marino-2">
               No hay tareas todavía
             </li>
           )}

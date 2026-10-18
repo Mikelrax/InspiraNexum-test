@@ -18,7 +18,7 @@ function Dialogo({ titulo, onCerrar, children }: { titulo: string; onCerrar: () 
   return (
     <dialog
       ref={ref}
-      className="m-auto w-[min(440px,calc(100vw-32px))] rounded-2xl border-0 bg-white p-0 font-body text-tinta shadow-marca backdrop:bg-cacao-osc/50"
+      className="m-auto w-[min(440px,calc(100vw-32px))] rounded-2xl border-0 bg-white p-0 font-body text-tinta shadow-marca backdrop:bg-marino-osc/50"
       onClose={onCerrar}
       onClick={(evento) => {
         // Un clic directo sobre el <dialog> (no sobre su contenido) es un clic en el fondo.
@@ -30,7 +30,7 @@ function Dialogo({ titulo, onCerrar, children }: { titulo: string; onCerrar: () 
           <h2 className="text-[1.2rem]">{titulo}</h2>
           <button
             type="button"
-            className="cursor-pointer border-0 bg-transparent text-[1.6rem] leading-none text-cacao-2 transition-colors hover:text-frambuesa"
+            className="cursor-pointer border-0 bg-transparent text-[1.6rem] leading-none text-marino-2 transition-colors hover:text-magenta"
             onClick={() => ref.current?.close()}
             aria-label="Cerrar"
           >

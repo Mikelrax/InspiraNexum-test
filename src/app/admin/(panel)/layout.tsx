@@ -15,14 +15,14 @@ export default async function LayoutPanel({ children }: { children: ReactNode })
   if (!sesion) redirect("/admin/login");
 
   return (
-    <div className="min-h-svh bg-crema lg:grid lg:grid-cols-[250px_1fr]">
-      <aside className="flex flex-col gap-4 border-b border-rubor-2 bg-white px-4 py-4 lg:sticky lg:top-0 lg:h-svh lg:border-r lg:border-b-0 lg:py-6">
+    <div className="min-h-svh bg-lienzo lg:grid lg:grid-cols-[250px_1fr]">
+      <aside className="flex flex-col gap-4 border-b border-bruma-2 bg-white px-4 py-4 lg:sticky lg:top-0 lg:h-svh lg:border-r lg:border-b-0 lg:py-6">
         <Link href="/admin" className="flex items-center gap-2 px-2" aria-label="Inspira Nexum, panel">
           <Logo />
         </Link>
         <NavegacionAdmin />
-        <div className="mt-auto hidden border-t border-rubor-2 pt-4 lg:block">
-          <p className="truncate px-2 text-sm text-cacao-2">{sesion.sub}</p>
+        <div className="mt-auto hidden border-t border-bruma-2 pt-4 lg:block">
+          <p className="truncate px-2 text-sm text-marino-2">{sesion.sub}</p>
           <form action={cerrarSesionAccion} className="mt-2">
             <button type="submit" className="boton boton-fantasma boton-chico w-full">
               Cerrar sesión

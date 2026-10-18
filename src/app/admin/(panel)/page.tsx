@@ -50,7 +50,7 @@ export default async function Dashboard() {
       <header className="mb-8">
         <p className="etiqueta">Panel administrativo</p>
         <h1 className="mt-3 text-4xl">Dashboard</h1>
-        <p className="mt-2 text-cacao-2">Todos los módulos de Inspira Nexum en un solo lugar.</p>
+        <p className="mt-2 text-marino-2">Todos los módulos de Inspira Nexum en un solo lugar.</p>
       </header>
 
       <section aria-label="Módulos" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -67,17 +67,17 @@ export default async function Dashboard() {
               >
                 {m.nombre[0]}
               </span>
-              <span className="rounded-full bg-crema px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-cacao-2">
+              <span className="rounded-full bg-lienzo px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-marino-2">
                 {m.zona === "admin" ? "Privado" : "Público"}
               </span>
             </div>
             <div>
               <h2 className="text-xl">{m.nombre}</h2>
-              <p className="mt-1 text-sm text-cacao-2">{m.descripcion}</p>
+              <p className="mt-1 text-sm text-marino-2">{m.descripcion}</p>
             </div>
-            <p className="mt-auto flex items-baseline gap-2 border-t border-rubor-2 pt-3">
+            <p className="mt-auto flex items-baseline gap-2 border-t border-bruma-2 pt-3">
               <strong className={`font-display text-2xl ${m.acento.texto}`}>{datos[m.id].valor}</strong>
-              <span className="text-sm text-cacao-2">{datos[m.id].detalle}</span>
+              <span className="text-sm text-marino-2">{datos[m.id].detalle}</span>
             </p>
           </Link>
         ))}

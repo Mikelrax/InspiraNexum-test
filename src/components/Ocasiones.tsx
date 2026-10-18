@@ -11,7 +11,7 @@ const TARJETA =
 const NORMAL = "bg-white";
 // Borde degradado de marca: el fondo blanco va en padding-box y el degradado en border-box.
 const DESTACADA =
-  "border-[2.5px] border-solid border-transparent [background:linear-gradient(white,white)_padding-box,linear-gradient(120deg,var(--color-coral)_0%,var(--color-frambuesa)_60%,var(--color-vino)_100%)_border-box]";
+  "border-[2.5px] border-solid border-transparent [background:linear-gradient(white,white)_padding-box,linear-gradient(120deg,var(--color-celeste)_0%,var(--color-magenta)_60%,var(--color-magenta-osc)_100%)_border-box]";
 
 // La fecha "de hoy" solo se conoce en el navegador; en el servidor se
 // renderiza sin destacar ninguna ocasión para evitar desajustes de hidratación.
@@ -57,7 +57,7 @@ export function Ocasiones() {
               {ocasion.icono}
             </span>
             <h3 className="text-[1.3rem]">{ocasion.nombre}</h3>
-            <p className="min-h-[1.4em] text-[0.82rem] font-semibold tracking-[0.04em] text-coral-osc">
+            <p className="min-h-[1.4em] text-[0.82rem] font-semibold tracking-[0.04em] text-celeste-osc">
               {ocasion.fecha === null
                 ? "Todo el año"
                 : fecha
@@ -66,7 +66,7 @@ export function Ocasiones() {
             </p>
             <p className="text-[0.92rem] text-tinta-suave">{ocasion.sugerencia}</p>
             <a
-              className="mt-auto w-fit pt-[0.8rem] text-[0.9rem] font-semibold text-frambuesa no-underline"
+              className="mt-auto w-fit pt-[0.8rem] text-[0.9rem] font-semibold text-magenta no-underline"
               href={enlaceWhatsApp(`¡Hola! Quiero un detalle para ${ocasion.nombre}: ${ocasion.sugerencia}.`)}
               target="_blank"
               rel="noopener noreferrer"

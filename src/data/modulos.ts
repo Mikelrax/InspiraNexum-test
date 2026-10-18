@@ -18,7 +18,7 @@ export const MODULOS: Modulo[] = [
     nombre: "Educación",
     descripcion: "Cursos, estudiantes y enlaces de registro",
     href: "/admin/educacion",
-    acento: { fondo: "bg-rubor", texto: "text-frambuesa", borde: "hover:border-frambuesa" },
+    acento: { fondo: "bg-bruma", texto: "text-magenta", borde: "hover:border-magenta" },
     zona: "admin",
   },
   {
@@ -26,7 +26,7 @@ export const MODULOS: Modulo[] = [
     nombre: "Archivos",
     descripcion: "Almacén de archivos y carpetas en Cloudflare R2",
     href: "/admin/archivos",
-    acento: { fondo: "bg-pino-claro", texto: "text-pino", borde: "hover:border-pino" },
+    acento: { fondo: "bg-turquesa-claro", texto: "text-turquesa", borde: "hover:border-turquesa" },
     zona: "admin",
   },
   {
@@ -34,7 +34,7 @@ export const MODULOS: Modulo[] = [
     nombre: "Tareas",
     descripcion: "Lista de pendientes del equipo",
     href: "/tareas",
-    acento: { fondo: "bg-oro-claro", texto: "text-cacao", borde: "hover:border-oro" },
+    acento: { fondo: "bg-dorado-claro", texto: "text-marino", borde: "hover:border-dorado" },
     zona: "publico",
   },
   {
@@ -42,7 +42,7 @@ export const MODULOS: Modulo[] = [
     nombre: "Manual de marca",
     descripcion: "Paleta, tipografía, logotipo y movimiento",
     href: "/branding",
-    acento: { fondo: "bg-rubor-2", texto: "text-vino", borde: "hover:border-vino" },
+    acento: { fondo: "bg-bruma-2", texto: "text-magenta-osc", borde: "hover:border-magenta-osc" },
     zona: "publico",
   },
   {
@@ -50,7 +50,7 @@ export const MODULOS: Modulo[] = [
     nombre: "Sitio web",
     descripcion: "Página pública de Inspira Nexum",
     href: "/",
-    acento: { fondo: "bg-crema", texto: "text-coral-osc", borde: "hover:border-coral" },
+    acento: { fondo: "bg-lienzo", texto: "text-celeste-osc", borde: "hover:border-celeste" },
     zona: "publico",
   },
 ];

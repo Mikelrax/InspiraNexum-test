@@ -10,8 +10,8 @@ const ENLACES = [
   { href: "/#dliriz", texto: "D'Liriz" },
   { href: "/#compartiendo-amor", texto: "Compartiendo Amor" },
   { href: "/#personalizate", texto: "Personalízate" },
+  { href: "/#alas", texto: "Alas hacia el futuro" },
   { href: "/#ocasiones", texto: "Ocasiones" },
-  { href: "/branding", texto: "Branding" },
 ];
 
 // Estado del encabezado en data-solido / data-abierto (header.group/encabezado).
@@ -29,7 +29,7 @@ const ENLACE =
 
 // Barra del icono hamburguesa; las tres se pliegan en una X al abrir el menú.
 const BARRA_HAMBURGUESA =
-  "absolute left-[13px] right-[13px] h-[2px] rounded-[2px] bg-cacao [transition:transform_0.4s_var(--ease-suave),opacity_0.3s]";
+  "absolute left-[13px] right-[13px] h-[2px] rounded-[2px] bg-marino [transition:transform_0.4s_var(--ease-suave),opacity_0.3s]";
 
 export function Encabezado() {
   const [desplazado, setDesplazado] = useState(false);
@@ -48,7 +48,7 @@ export function Encabezado() {
 
   return (
     <header
-      className="group/encabezado fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-400 data-[solido]:bg-crema/[0.93] data-[solido]:shadow-[0_1px_0_rgba(74,42,32,0.08),0_10px_30px_-20px_rgba(74,42,32,0.3)] data-[solido]:backdrop-blur-[14px] data-[solido]:backdrop-saturate-[1.4]"
+      className="group/encabezado fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-400 data-[solido]:bg-lienzo/90 data-[solido]:shadow-[0_1px_0_rgba(29,43,92,0.08),0_10px_30px_-20px_rgba(29,43,92,0.3)] data-[solido]:backdrop-blur-[14px] data-[solido]:backdrop-saturate-[1.4]"
       data-solido={desplazado || undefined}
       data-abierto={abierto || undefined}
     >
@@ -64,7 +64,7 @@ export function Encabezado() {
 
         <nav
           aria-label="Principal"
-          className="flex items-center gap-[1.6rem] max-[1080px]:min-[961px]:gap-[1.1rem] max-[960px]:fixed max-[960px]:inset-0 max-[960px]:flex-col max-[960px]:justify-center max-[960px]:gap-[1.4rem] max-[960px]:bg-crema/[0.97] max-[960px]:backdrop-blur-[10px] max-[960px]:invisible max-[960px]:opacity-0 max-[960px]:[transition:opacity_0.4s_var(--ease-suave),visibility_0.4s] max-[960px]:group-data-[abierto]/encabezado:visible max-[960px]:group-data-[abierto]/encabezado:opacity-100"
+          className="flex items-center gap-[1.6rem] max-[1080px]:min-[961px]:gap-[1.1rem] max-[960px]:fixed max-[960px]:inset-0 max-[960px]:flex-col max-[960px]:justify-center max-[960px]:gap-[1.4rem] max-[960px]:bg-lienzo/[0.97] max-[960px]:backdrop-blur-[10px] max-[960px]:invisible max-[960px]:opacity-0 max-[960px]:[transition:opacity_0.4s_var(--ease-suave),visibility_0.4s] max-[960px]:group-data-[abierto]/encabezado:visible max-[960px]:group-data-[abierto]/encabezado:opacity-100"
         >
           {ENLACES.map((enlace) => (
             <Link key={enlace.href} href={enlace.href} className={ENLACE} onClick={() => setAbierto(false)}>

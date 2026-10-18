@@ -20,7 +20,7 @@ export function BotonAccion({
       type="button"
       className={
         peligro
-          ? "boton boton-fantasma boton-chico whitespace-nowrap text-vino"
+          ? "boton boton-fantasma boton-chico whitespace-nowrap text-magenta-osc"
           : "boton boton-fantasma boton-chico whitespace-nowrap"
       }
       disabled={pendiente}

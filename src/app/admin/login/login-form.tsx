@@ -23,7 +23,7 @@ export function LoginForm({ destino }: { destino: string }) {
       </label>
 
       {estado.error && (
-        <p role="alert" className="rounded-xl bg-rubor px-3 py-2.5 text-[0.9rem] text-vino">
+        <p role="alert" className="rounded-xl bg-bruma px-3 py-2.5 text-[0.9rem] text-magenta-osc">
           {estado.error}
         </p>
       )}

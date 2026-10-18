@@ -26,11 +26,11 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Inspira Nexum · Detalles que conectan | Arequipa",
   description:
-    "Chocolatería D'Liriz, arreglos Compartiendo Amor y regalos Personalízate Arequipa: detalles hechos a mano para cada ocasión, con delivery en Arequipa.",
+    "Inspira Nexum E.I.R.L.: chocolatería D'Liriz, arreglos Compartiendo Amor, regalos Personalízate Arequipa y la escuela de oficios Alas hacia el futuro. Detalles que conectan, desde Arequipa.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fff7f2",
+  themeColor: "#fbfaf7",
 };
 
 // Marca <html> antes del primer pintado para que las animaciones de entrada
