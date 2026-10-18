@@ -1,0 +1,532 @@
+/* ════════════════════════════════════════════════════════════════
+   Inspira Nexum · Sistema visual (Tailwind v4)
+   Única hoja de estilos global. Todo lo demás se escribe con clases
+   utilitarias en el JSX. Paleta, tipografía y movimiento: /branding
+   ════════════════════════════════════════════════════════════════ */
+
+@import "tailwindcss";
+
+/* ───────── Tokens de marca → utilidades (bg-crema, text-cacao, font-display…) ───────── */
+
+@theme static {
+  /* Base */
+  --color-crema: #fff8f3;
+  --color-rubor: #fbe9e4;
+  --color-rubor-2: #f5d6ce;
+  --color-cacao: #4a2a20;
+  --color-cacao-2: #7a5444;
+  --color-cacao-osc: #2e1912;
+
+  /* Acentos de marca */
+  --color-coral: #e7857a; /* D'Liriz */
+  --color-coral-osc: #cf6457;
+  --color-frambuesa: #c21f45; /* Compartiendo Amor */
+  --color-vino: #7c1030;
+  --color-pino: #1f5a4a; /* Personalízate Arequipa */
+  --color-pino-claro: #e4efe9;
+  --color-oro: #c99a4b; /* Detalle premium, común a todas */
+  --color-oro-claro: #f3e2bf;
+
+  /* Alias semánticos */
+  --color-tinta: var(--color-cacao);
+  --color-tinta-suave: var(--color-cacao-2);
+
+  --radius-marca: 24px;
+
+  --shadow-suave: 0 10px 30px -12px rgba(74, 42, 32, 0.25);
+  --shadow-marca: 0 30px 60px -24px rgba(74, 42, 32, 0.35);
+
+  --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-rebote: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Las fuentes de next/font exponen --fuente-*; "inline" evita referencias circulares. */
+@theme static inline {
+  --font-display: var(--fuente-display), Georgia, serif;
+  --font-script: var(--fuente-script), cursive;
+  --font-body: var(--fuente-body), system-ui, sans-serif;
+}
+
+/* ───────── Base ───────── */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-tinta);
+    background: var(--color-crema);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--color-coral);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-frambuesa);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      font-size: 1rem;
+    }
+  }
+}
+
+/* Animaciones de entrada por scroll: <AnimacionesScroll/> añade data-visible.
+   Solo actúan si <html class="js"> (ver layout.tsx). Van fuera de @layer a
+   propósito: así ganan a cualquier utilidad de transición o transform del elemento. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 46px, 0);
+  transition:
+    opacity 1s var(--ease-suave),
+    transform 1.1s var(--ease-suave);
+  transition-delay: var(--retraso, 0ms);
+}
+.js [data-reveal="left"] {
+  transform: translate3d(-70px, 0, 0);
+}
+.js [data-reveal="right"] {
+  transform: translate3d(60px, 0, 0);
+}
+.js [data-reveal="zoom"] {
+  transform: scale(0.86);
+}
+.js [data-reveal="linea"] {
+  opacity: 1;
+  transform: none;
+}
+.js [data-reveal][data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ───────── Utilidades compartidas de marca ─────────
+   Solo lo que Tailwind no expresa con clases sueltas (pseudo-elementos
+   compuestos, degradados de marca). Se usan igual que cualquier utilidad. */
+
+@utility contenedor {
+  width: min(1200px, 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+@utility bg-marca {
+  background-image: linear-gradient(120deg, var(--color-coral) 0%, var(--color-frambuesa) 60%, var(--color-vino) 100%);
+}
+
+/* Texto con firma manuscrita y degradado de marca. */
+@utility script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: 1.35em;
+  line-height: 0.8;
+  letter-spacing: 0;
+  padding-inline: 0.08em;
+  background-image: linear-gradient(120deg, var(--color-coral) 0%, var(--color-frambuesa) 60%, var(--color-vino) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Etiqueta de sección con raya inicial. */
+@utility etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-coral-osc);
+
+  &::before {
+    content: "";
+    width: 28px;
+    height: 1.5px;
+    background: currentColor;
+  }
+}
+
+@utility etiqueta-clara {
+  color: var(--color-oro-claro);
+}
+
+@utility etiqueta-sin-raya {
+  &::before {
+    display: none;
+  }
+}
+
+/* Botón de marca con destello al pasar el cursor. Variantes: boton-primario,
+   boton-fantasma, boton-blanco, boton-pino, boton-chico. */
+@utility boton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.7rem;
+  border-radius: 999px;
+  border: 0;
+  background: var(--color-cacao);
+  color: white;
+  font: 600 1rem/1 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    translate 0.35s var(--ease-suave),
+    box-shadow 0.35s var(--ease-suave),
+    background-color 0.3s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+    translate: -120% 0;
+    transition: translate 0.8s var(--ease-suave);
+  }
+
+  &:hover {
+    translate: 0 -3px;
+  }
+
+  &:hover::after {
+    translate: 120% 0;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@utility boton-primario {
+  background-image: linear-gradient(120deg, var(--color-coral) 0%, var(--color-frambuesa) 60%, var(--color-vino) 100%);
+  background-size: 160% 100%;
+  color: white;
+  box-shadow: 0 14px 30px -12px rgba(194, 31, 69, 0.6);
+
+  &:hover {
+    box-shadow: 0 20px 40px -14px rgba(194, 31, 69, 0.7);
+  }
+}
+
+@utility boton-fantasma {
+  background: transparent;
+  color: var(--color-tinta);
+  box-shadow: inset 0 0 0 1.5px rgba(74, 42, 32, 0.35);
+
+  &:hover {
+    background: white;
+    box-shadow: inset 0 0 0 1.5px var(--color-tinta);
+  }
+}
+
+@utility boton-blanco {
+  background: white;
+  color: var(--color-frambuesa);
+  box-shadow: 0 16px 34px -16px rgba(0, 0, 0, 0.5);
+}
+
+@utility boton-pino {
+  background: var(--color-pino);
+  color: white;
+  box-shadow: 0 14px 30px -12px rgba(31, 90, 74, 0.6);
+}
+
+@utility boton-chico {
+  padding: 0.7rem 1.25rem;
+  font-size: 0.92rem;
+}
+
+/* Tarjeta que se inclina con <Tilt/> (variables --rx/--ry vía JS). */
+@utility tilt {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.5s var(--ease-suave);
+  will-change: transform;
+}
+
+/* ───────── Controles compartidos (panel admin, tareas, inscripción) ───────── */
+
+@utility campo {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--color-rubor-2);
+  border-radius: 12px;
+  background: white;
+  color: var(--color-tinta);
+  font: inherit;
+  font-size: 0.95rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-coral);
+    box-shadow: 0 0 0 3px rgba(231, 133, 122, 0.25);
+  }
+}
+
+/* Superficie de tarjeta del panel. */
+@utility tarjeta {
+  border: 1px solid var(--color-rubor-2);
+  border-radius: 16px;
+  background: white;
+  box-shadow: var(--shadow-suave);
+}
+
+@utility punto-vivo {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-frambuesa);
+  box-shadow: 0 0 0 0 rgba(194, 31, 69, 0.5);
+  animation: latido-punto 2s infinite;
+}
+
+/* ───────── Keyframes (usar con animate-[nombre_6s_ease-in-out_infinite]) ───────── */
+
+/* ───────── Keyframes ───────── */
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.6) translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes dibujar {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes latido {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.12);
+  }
+  30% {
+    transform: scale(0.97);
+  }
+  45% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes latido-punto {
+  70% {
+    box-shadow: 0 0 0 10px rgba(194, 31, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(194, 31, 69, 0);
+  }
+}
+
+@keyframes brillo-texto {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes deriva {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(60px, 40px) scale(1.15);
+  }
+}
+
+@keyframes titilar {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+@keyframes subir {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-105vh) rotate(25deg);
+  }
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes desplazar {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes rueda {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes abanico {
+  from {
+    transform: rotate(-4deg) scale(0.96);
+  }
+  to {
+    transform: rotate(4deg) scale(1.03);
+  }
+}
+
+@keyframes morfar {
+  from {
+    border-radius: 46% 54% 40% 60% / 55% 40% 60% 45%;
+  }
+  to {
+    border-radius: 58% 42% 55% 45% / 42% 58% 42% 58%;
+  }
+}
+
+@keyframes onda {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes progreso {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Burbujas del fondo de /admin/login */
+@keyframes burbuja {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, -50px) scale(1.15);
+  }
+}
