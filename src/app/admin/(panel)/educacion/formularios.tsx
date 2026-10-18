@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import {
   agregarEstudianteAccion,
   configurarEnlaceAccion,
+  crearClaseAccion,
   crearCursoAccion,
   type EstadoFormulario,
 } from "./actions";
@@ -135,6 +136,25 @@ export function FormularioEnlace({ cursoId, maxUsosActual }: { cursoId: number; 
       )}
       <p className="m-0 text-[0.9rem] text-marino-2">Se genera un enlace nuevo y el contador de usos vuelve a cero.</p>
       <Pie estado={estado} pendiente={pendiente} texto="Generar enlace" />
+    </form>
+  );
+}
+
+export function FormularioClase({ cursoId, fechaInicial }: { cursoId: number; fechaInicial: string }) {
+  const [estado, accion, pendiente] = useActionState(crearClaseAccion.bind(null, cursoId), estadoInicial);
+  useCerrarAlTerminar(estado);
+
+  return (
+    <form action={accion} className="grid gap-3.5">
+      <label className="grid gap-1.5 text-[0.9rem]">
+        <span className="font-semibold">Tema de la clase</span>
+        <input className="campo" name="titulo" maxLength={150} placeholder="Ej. Clase 3: masas básicas" required autoFocus />
+      </label>
+      <label className="grid gap-1.5 text-[0.9rem]">
+        <span className="font-semibold">Fecha</span>
+        <input className="campo" type="date" name="fecha" defaultValue={fechaInicial} required />
+      </label>
+      <Pie estado={estado} pendiente={pendiente} texto="Crear clase" />
     </form>
   );
 }

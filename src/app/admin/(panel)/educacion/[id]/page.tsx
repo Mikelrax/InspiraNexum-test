@@ -5,14 +5,16 @@ import { notFound, redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { COOKIE_SESION, verificarToken } from "@/lib/sesion";
 import { listarEstudiantes, obtenerCurso, obtenerEnlace } from "@/lib/educacion";
+import { hoy, listarClases } from "@/lib/clases";
 import { parsearId } from "@/lib/http";
 import {
   cambiarEstadoEnlaceAccion,
+  eliminarClaseAccion,
   eliminarEstudianteAccion,
   rotarEnlaceAccion,
 } from "../actions";
 import { BotonAccion, CopiarEnlace } from "../controles";
-import { FormularioEnlace, FormularioEstudiante } from "../formularios";
+import { FormularioClase, FormularioEnlace, FormularioEstudiante } from "../formularios";
 import { BotonModal } from "../modal";
 
 export const metadata: Metadata = { title: "Curso · Inspira Nexum" };
@@ -41,9 +43,10 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
   const curso = id === null ? null : await obtenerCurso(id);
   if (!curso) notFound();
 
-  const [estudiantes, enlace] = await Promise.all([
+  const [estudiantes, enlace, clases] = await Promise.all([
     listarEstudiantes(curso.id),
     obtenerEnlace(curso.id),
+    listarClases(curso.id),
   ]);
 
   const url = enlace ? `${await origenPublico()}/unirse/${enlace.token}` : null;
@@ -72,9 +75,17 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
           </p>
           {curso.descripcion && <p className="mt-2 max-w-[60ch]">{curso.descripcion}</p>}
         </div>
-        <BotonModal etiqueta="Agregar estudiante" titulo="Agregar estudiante">
-          <FormularioEstudiante cursoId={curso.id} />
-        </BotonModal>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={`/admin/educacion/${curso.id}/reporte`}
+            className="boton boton-fantasma boton-chico whitespace-nowrap"
+          >
+            Reporte de asistencia
+          </Link>
+          <BotonModal etiqueta="Agregar estudiante" titulo="Agregar estudiante">
+            <FormularioEstudiante cursoId={curso.id} />
+          </BotonModal>
+        </div>
       </header>
 
       <section className="tarjeta p-5">
@@ -134,6 +145,78 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
         )}
       </section>
 
+      <section className="grid gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-[1.1rem]">Clases</h2>
+          <BotonModal etiqueta="Nueva clase" titulo="Nueva clase">
+            <FormularioClase cursoId={curso.id} fechaInicial={hoy()} />
+          </BotonModal>
+        </div>
+        <div className="tarjeta overflow-x-auto">
+          <table className="w-full border-collapse text-[0.93rem]">
+            <thead>
+              <tr>
+                <th className={cabecera}>Fecha</th>
+                <th className={cabecera}>Clase</th>
+                <th className={cabecera}>Asistencia</th>
+                <th aria-label="Acciones" className={cabecera} />
+              </tr>
+            </thead>
+            <tbody className="[&>tr:last-child>td]:border-b-0">
+              {clases.map((clase) => (
+                <tr key={clase.id}>
+                  <td className={`${celda} whitespace-nowrap`}>{clase.fecha}</td>
+                  <td className={celda}>
+                    <Link
+                      href={`/admin/educacion/${curso.id}/clases/${clase.id}`}
+                      className="font-semibold text-tinta no-underline transition-colors hover:text-magenta"
+                    >
+                      {clase.titulo}
+                    </Link>
+                  </td>
+                  <td className={celda}>
+                    {clase.asistenciaTomada ? (
+                      <span>
+                        <strong className="text-turquesa">{clase.presentes}</strong> asistieron ·{" "}
+                        <strong className="text-magenta-osc">{clase.faltas}</strong> faltaron
+                      </span>
+                    ) : (
+                      <span className="text-marino-2">Sin tomar</span>
+                    )}
+                  </td>
+                  <td className={celda}>
+                    <div className="flex justify-end gap-2">
+                      <Link
+                        href={`/admin/educacion/${curso.id}/clases/${clase.id}`}
+                        className="boton boton-fantasma boton-chico whitespace-nowrap"
+                      >
+                        {clase.asistenciaTomada ? "Ver asistencia" : "Tomar asistencia"}
+                      </Link>
+                      <BotonAccion
+                        accion={eliminarClaseAccion.bind(null, curso.id, clase.id)}
+                        confirmar={`¿Eliminar la clase "${clase.titulo}" y su asistencia?`}
+                        peligro
+                      >
+                        Eliminar
+                      </BotonAccion>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {clases.length === 0 && (
+                <tr>
+                  <td colSpan={4} className={celdaVacia}>
+                    Sin clases todavía. Crea la primera con «Nueva clase».
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="grid gap-3">
+        <h2 className="text-[1.1rem]">Estudiantes</h2>
       <div className="tarjeta overflow-x-auto">
         <table className="w-full border-collapse text-[0.93rem]">
           <thead>
@@ -173,6 +256,7 @@ export default async function PaginaCurso({ params }: { params: Promise<{ id: st
           </tbody>
         </table>
       </div>
+      </section>
     </div>
   );
 }

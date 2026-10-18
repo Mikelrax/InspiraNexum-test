@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { COOKIE_SESION, verificarToken } from "@/lib/sesion";
 import { ErrorValidacion } from "@/lib/tareas";
+import { crearClase, eliminarClase, guardarAsistencia } from "@/lib/clases";
 import {
   agregarEstudiante,
   cambiarEstadoEnlace,
@@ -106,4 +107,39 @@ export async function cambiarEstadoEnlaceAccion(cursoId: number, activo: boolean
   await requerirSesion();
   await cambiarEstadoEnlace(cursoId, activo);
   revalidatePath(rutaCurso(cursoId));
+}
+
+export async function crearClaseAccion(
+  cursoId: number,
+  _estado: EstadoFormulario,
+  formData: FormData
+): Promise<EstadoFormulario> {
+  await requerirSesion();
+  const resultado = await conErrores(async () => {
+    await crearClase(cursoId, { titulo: formData.get("titulo"), fecha: formData.get("fecha") });
+  });
+  if (resultado.ok) revalidatePath(rutaCurso(cursoId));
+  return resultado;
+}
+
+export async function eliminarClaseAccion(cursoId: number, claseId: number) {
+  await requerirSesion();
+  await eliminarClase(cursoId, claseId);
+  revalidatePath(rutaCurso(cursoId));
+}
+
+export async function guardarAsistenciaAccion(
+  cursoId: number,
+  claseId: number,
+  _estado: EstadoFormulario,
+  formData: FormData
+): Promise<EstadoFormulario> {
+  await requerirSesion();
+  const presentes = formData
+    .getAll("presente")
+    .map((valor) => Number(valor))
+    .filter((id) => Number.isInteger(id) && id > 0);
+  const resultado = await conErrores(() => guardarAsistencia(cursoId, claseId, presentes));
+  if (resultado.ok) revalidatePath(rutaCurso(cursoId));
+  return resultado;
 }

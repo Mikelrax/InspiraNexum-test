@@ -1,10 +1,12 @@
 import { randomBytes } from "node:crypto";
 import type { Database } from "sql.js";
 import { consultar, consultarUno, obtenerDb } from "./db";
+import { sembrarEducacion } from "./semilla-educacion";
 import { ErrorValidacion } from "./tareas";
 
 // Las tablas se crean aquí (idempotente) para no depender de db.ts, que otros módulos también editan.
-const globalParaEsquema = globalThis as unknown as { esquemaEducacion?: Promise<void> };
+// La clave lleva versión: si cambia el esquema, un servidor en caliente vuelve a ejecutar el CREATE IF NOT EXISTS.
+const globalParaEsquema = globalThis as unknown as { esquemaEducacionV2?: Promise<void> };
 
 function crearEsquema(db: Database) {
   db.run(`
@@ -33,26 +35,45 @@ function crearEsquema(db: Database) {
       activo INTEGER NOT NULL DEFAULT 1,
       actualizado_en TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    -- Una clase es una sesión de un curso. asistencia_tomada_en es NULL hasta guardar la asistencia.
+    CREATE TABLE IF NOT EXISTS clases (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      curso_id INTEGER NOT NULL REFERENCES cursos(id) ON DELETE CASCADE,
+      titulo TEXT NOT NULL,
+      fecha TEXT NOT NULL,
+      asistencia_tomada_en TEXT,
+      creada_en TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    -- Solo existe asistió (1) o faltó (0): no hay tardanza.
+    CREATE TABLE IF NOT EXISTS asistencias (
+      clase_id INTEGER NOT NULL REFERENCES clases(id) ON DELETE CASCADE,
+      estudiante_id INTEGER NOT NULL REFERENCES estudiantes(id) ON DELETE CASCADE,
+      presente INTEGER NOT NULL CHECK (presente IN (0, 1)),
+      PRIMARY KEY (clase_id, estudiante_id)
+    );
   `);
 }
 
-async function db(): Promise<Database> {
+export async function db(): Promise<Database> {
   const base = await obtenerDb();
-  globalParaEsquema.esquemaEducacion ??= Promise.resolve().then(() => {
+  globalParaEsquema.esquemaEducacionV2 ??= Promise.resolve().then(() => {
     // sql.js ejecuta PRAGMA foreign_keys por conexión; se reafirma por si la base se recreó.
     base.run("PRAGMA foreign_keys = ON;");
     crearEsquema(base);
+    sembrarEducacion(base);
   });
-  await globalParaEsquema.esquemaEducacion;
+  await globalParaEsquema.esquemaEducacionV2;
   return base;
 }
 
-async function q<T>(sql: string, parametros: (string | number | null)[] = []): Promise<T[]> {
+export async function q<T>(sql: string, parametros: (string | number | null)[] = []): Promise<T[]> {
   await db();
   return consultar<T>(sql, parametros);
 }
 
-async function q1<T>(sql: string, parametros: (string | number | null)[] = []): Promise<T | null> {
+export async function q1<T>(sql: string, parametros: (string | number | null)[] = []): Promise<T | null> {
   await db();
   return consultarUno<T>(sql, parametros);
 }
@@ -136,7 +157,7 @@ const aEnlace = (f: FilaEnlace): EnlaceInscripcion => ({
 
 // ---------- Validación ----------
 
-function texto(valor: unknown, campo: string, max: number, obligatorio: boolean): string {
+export function texto(valor: unknown, campo: string, max: number, obligatorio: boolean): string {
   if (valor === undefined || valor === null || valor === "") {
     if (obligatorio) throw new ErrorValidacion(`${campo} es obligatorio`);
     return "";
@@ -190,6 +211,8 @@ export async function crearCurso(datos: {
 export async function eliminarCurso(id: number): Promise<boolean> {
   const base = await db();
   // Se borra en cascada a mano: no se asume que foreign_keys esté activo en la conexión.
+  base.run("DELETE FROM asistencias WHERE clase_id IN (SELECT id FROM clases WHERE curso_id = ?)", [id]);
+  base.run("DELETE FROM clases WHERE curso_id = ?", [id]);
   base.run("DELETE FROM estudiantes WHERE curso_id = ?", [id]);
   base.run("DELETE FROM enlaces_inscripcion WHERE curso_id = ?", [id]);
   const fila = await q1<{ id: number }>("DELETE FROM cursos WHERE id = ? RETURNING id", [id]);
@@ -221,6 +244,7 @@ export async function agregarEstudiante(
 }
 
 export async function eliminarEstudiante(id: number): Promise<boolean> {
+  (await db()).run("DELETE FROM asistencias WHERE estudiante_id = ?", [id]);
   const fila = await q1<{ id: number }>("DELETE FROM estudiantes WHERE id = ? RETURNING id", [id]);
   return fila !== null;
 }
