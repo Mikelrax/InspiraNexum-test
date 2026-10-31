@@ -77,7 +77,7 @@ export async function agregarEstudianteAccion(
 
 export async function eliminarEstudianteAccion(cursoId: number, estudianteId: number) {
   await requerirSesion();
-  await eliminarEstudiante(estudianteId);
+  await eliminarEstudiante(cursoId, estudianteId);
   revalidatePath(rutaCurso(cursoId));
   revalidatePath("/admin/educacion");
 }

@@ -4,3 +4,7 @@ out
 next-env.d.ts
 *.tsbuildinfo
 .env*.local
+
+# Base SQLite local (DB_PATH)
+*.sqlite
+*.sqlite.tmp

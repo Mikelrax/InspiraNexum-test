@@ -1,12 +1,5 @@
 import { createHash, timingSafeEqual } from "node:crypto";
-
-const INTENTOS_MAXIMOS = 5;
-const VENTANA_MS = 15 * 60 * 1000;
-
-const globalForLimite = globalThis as unknown as {
-  intentosFallidos?: Map<string, { cantidad: number; reinicio: number }>;
-};
-const intentos = (globalForLimite.intentosFallidos ??= new Map());
+import { crearLimitador } from "./limite";
 
 // Se comparan hashes de longitud fija para que la comparación sea en tiempo constante.
 function igual(a: string, b: string): boolean {
@@ -26,26 +19,23 @@ export function credencialesValidas(email: string, password: string): boolean {
   return emailOk && passwordOk;
 }
 
-export function intentosAgotados(clave: string): boolean {
-  const registro = intentos.get(clave);
-  if (!registro) return false;
-  if (registro.reinicio < Date.now()) {
-    intentos.delete(clave);
-    return false;
-  }
-  return registro.cantidad >= INTENTOS_MAXIMOS;
+const VENTANA_MS = 15 * 60 * 1000;
+// Por IP se corta pronto; el límite de la cuenta es más alto pero no depende de la IP,
+// así que falsificar x-forwarded-for no permite probar contraseñas sin fin.
+const porIp = crearLimitador("login-ip", 5, VENTANA_MS);
+const porCuenta = crearLimitador("login-cuenta", 20, VENTANA_MS);
+const CUENTA = "admin";
+
+export function intentosAgotados(ip: string): boolean {
+  return porIp.agotado(ip) || porCuenta.agotado(CUENTA);
 }
 
-export function registrarIntentoFallido(clave: string) {
-  const ahora = Date.now();
-  const registro = intentos.get(clave);
-  if (!registro || registro.reinicio < ahora) {
-    intentos.set(clave, { cantidad: 1, reinicio: ahora + VENTANA_MS });
-  } else {
-    registro.cantidad++;
-  }
+export function registrarIntentoFallido(ip: string) {
+  porIp.registrar(ip);
+  porCuenta.registrar(CUENTA);
 }
 
-export function limpiarIntentos(clave: string) {
-  intentos.delete(clave);
+export function limpiarIntentos(ip: string) {
+  porIp.limpiar(ip);
+  porCuenta.limpiar(CUENTA);
 }

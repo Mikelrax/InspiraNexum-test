@@ -8,6 +8,7 @@ import {
   limpiarIntentos,
   registrarIntentoFallido,
 } from "@/lib/admin";
+import { ipCliente } from "@/lib/limite";
 import { COOKIE_SESION, DURACION_SESION_SEG, crearToken } from "@/lib/sesion";
 
 export type EstadoLogin = { error: string | null; email?: string };
@@ -30,8 +31,7 @@ export async function iniciarSesionAccion(
     return { error: "Ingresa tu correo y contraseña", email: typeof email === "string" ? email : undefined };
   }
 
-  const cabeceras = await headers();
-  const ip = cabeceras.get("x-forwarded-for")?.split(",")[0].trim() || "local";
+  const ip = ipCliente(await headers());
 
   if (intentosAgotados(ip)) {
     return { error: "Demasiados intentos fallidos. Inténtalo de nuevo en 15 minutos", email };

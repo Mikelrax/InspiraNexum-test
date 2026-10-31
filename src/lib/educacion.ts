@@ -243,7 +243,13 @@ export async function agregarEstudiante(
   return aEstudiante(fila!);
 }
 
-export async function eliminarEstudiante(id: number): Promise<boolean> {
+/** Elimina al estudiante solo si pertenece al curso indicado (junto con su asistencia). */
+export async function eliminarEstudiante(cursoId: number, id: number): Promise<boolean> {
+  const pertenece = await q1<{ id: number }>("SELECT id FROM estudiantes WHERE id = ? AND curso_id = ?", [
+    id,
+    cursoId,
+  ]);
+  if (!pertenece) return false;
   (await db()).run("DELETE FROM asistencias WHERE estudiante_id = ?", [id]);
   const fila = await q1<{ id: number }>("DELETE FROM estudiantes WHERE id = ? RETURNING id", [id]);
   return fila !== null;
